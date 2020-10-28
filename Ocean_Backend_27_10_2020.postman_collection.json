@@ -23,11 +23,10 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000",
+					"raw": "{{API_URL}}",
 					"host": [
-						"localhost"
-					],
-					"port": "3000"
+						"{{API_URL}}"
+					]
 				}
 			},
 			"response": []
@@ -50,13 +49,122 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/mensagem",
+					"raw": "{{API_URL}}/mensagem",
 					"host": [
-						"localhost"
+						"{{API_URL}}"
 					],
-					"port": "3000",
 					"path": [
 						"mensagem"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ler mensagem pelo ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/mensagem/5f9899a0bd239060b0a87987",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"mensagem",
+						"5f9899a0bd239060b0a87987"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remover mensagem pelo ID Copy",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/mensagem/5f9899a0bd239060b0a87987",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"mensagem",
+						"5f9899a0bd239060b0a87987"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar mensagem",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"texto\": \"Mensagem enviada pela API\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/mensagem",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"mensagem"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar mensagem Copy",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"texto\": \"Mensagem atualizada teste\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{API_URL}}/mensagem/5f9899a0bd239060b0a87987",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"mensagem",
+						"5f9899a0bd239060b0a87987"
 					]
 				}
 			},
