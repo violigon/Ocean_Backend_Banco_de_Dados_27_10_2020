@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongodb = require('mongodb');
+const ObjectId = mongodb.ObjectId;
 
 (async () => {
 
@@ -16,8 +17,6 @@ const options = {
 const client = await mongodb.MongoClient.connect(connectionString, options);
 
 console.info('MongoDb conectado com sucesso!');
-
-console.log(client);
 
 const app = express();
 
@@ -55,41 +54,34 @@ app.get('/', function (req, res) {
   res.send('Hello World');
 });
 
-const mensagens = [
-    {
-        id: 1,
-        texto: 'Essa é uma mensagem'
-    },
-    {
-        id: 2,
-        texto: 'Essa é outra mensagem'
-    }
-];
+const db = client.db('Ocean_Backend_Banco_de_Dados_27_10_2020');
+const mensagens = db.collection('mensagens');
 
 // Read All
-app.get('/mensagem', function (req, res) {
-    res.send(mensagens.filter(Boolean));
+app.get('/mensagem', async function (req, res) {
+    const findResult = await mensagens.find().toArray();
+    res.send(findResult);
 });
 
 // Create
-app.post('/mensagem', function (req, res) {
+app.post('/mensagem', async function (req, res) {
     const texto = req.body.texto;
 
     const mensagem = {
-        'id': mensagens.length + 1,
         'texto': texto
     };
 
-    mensagens.push(mensagem);
+    const resultado = await mensagens.insertOne(mensagem);
+  const objetoInserido = resultado.ops[0];
 
     res.send(mensagem);
 });
 
 // Read Single
-app.get('/mensagem/:id', function (req, res) {
+app.get('/mensagem/:id', async function (req, res) {
     const id = req.params.id;
 
-    const mensagem = mensagens[id - 1];
+    const mensagem = await mensagens.findOne({ _id: ObjectId(id)});
 
     res.send(mensagem);
 });
@@ -98,17 +90,23 @@ app.get('/mensagem/:id', function (req, res) {
 app.put('/mensagem/:id', function (req, res) {
     const id = req.params.id;
     const texto = req.body.texto;
+    const mensagem = {
+        _id: ObjectId(id),
+        texto
+    };
 
-    mensagens[id - 1].texto = texto;
-
+    mensagens.updateOne(
+        { _id: ObjectId(id)},
+        {$set: mensagem}
+    );
     res.send(mensagens[id - 1]);
 });
 
 // Delete
-app.delete('/mensagem/:id', function (req, res) {
+app.delete('/mensagem/:id', async function (req, res) {
     const id = req.params.id;
 
-    delete mensagens[id - 1];
+   await mensagens.deleteOne({ _id:ObjectId(id)});
 
     res.send(`A mensagem de ID ${id} foi removida com sucesso.`);
 });
